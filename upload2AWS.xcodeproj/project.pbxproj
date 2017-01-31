@@ -19,6 +19,13 @@
 		37512D911E3968ED00FC4A9A /* PhotoCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37512D901E3968ED00FC4A9A /* PhotoCell.swift */; };
 		375806871E3FB4DD008A2085 /* imageNamed.png in Resources */ = {isa = PBXBuildFile; fileRef = 375806861E3FB4DD008A2085 /* imageNamed.png */; };
 		375806891E3FFAD6008A2085 /* TaskManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 375806881E3FFAD6008A2085 /* TaskManager.swift */; };
+		375F8A491E410BA8001F9351 /* ChinderOverlay.swift in Sources */ = {isa = PBXBuildFile; fileRef = 375F8A481E410BA8001F9351 /* ChinderOverlay.swift */; };
+		375F8A4D1E411142001F9351 /* BackgroundAnimationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 375F8A4C1E411142001F9351 /* BackgroundAnimationViewController.swift */; };
+		375F8A4F1E41117A001F9351 /* CustomKolodaView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 375F8A4E1E41117A001F9351 /* CustomKolodaView.swift */; };
+		375F8A511E411199001F9351 /* BackgroundKolodaAnimator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 375F8A501E411199001F9351 /* BackgroundKolodaAnimator.swift */; };
+		376ABCDF1E41060D002414E9 /* chinderViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 376ABCDE1E41060D002414E9 /* chinderViewController.swift */; };
+		376ABCE11E41063F002414E9 /* UICollectionViewDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 376ABCE01E41063F002414E9 /* UICollectionViewDataSource.swift */; };
+		376ABCE31E410675002414E9 /* URLSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = 376ABCE21E410675002414E9 /* URLSession.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -35,6 +42,13 @@
 		37512D901E3968ED00FC4A9A /* PhotoCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PhotoCell.swift; sourceTree = "<group>"; };
 		375806861E3FB4DD008A2085 /* imageNamed.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = imageNamed.png; sourceTree = "<group>"; };
 		375806881E3FFAD6008A2085 /* TaskManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TaskManager.swift; sourceTree = "<group>"; };
+		375F8A481E410BA8001F9351 /* ChinderOverlay.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChinderOverlay.swift; sourceTree = "<group>"; };
+		375F8A4C1E411142001F9351 /* BackgroundAnimationViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BackgroundAnimationViewController.swift; sourceTree = "<group>"; };
+		375F8A4E1E41117A001F9351 /* CustomKolodaView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomKolodaView.swift; sourceTree = "<group>"; };
+		375F8A501E411199001F9351 /* BackgroundKolodaAnimator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BackgroundKolodaAnimator.swift; sourceTree = "<group>"; };
+		376ABCDE1E41060D002414E9 /* chinderViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = chinderViewController.swift; sourceTree = "<group>"; };
+		376ABCE01E41063F002414E9 /* UICollectionViewDataSource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UICollectionViewDataSource.swift; sourceTree = "<group>"; };
+		376ABCE21E410675002414E9 /* URLSession.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = URLSession.swift; sourceTree = "<group>"; };
 		5255F4BED506EF9DEC7A6E84 /* Pods-upload2AWS.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-upload2AWS.release.xcconfig"; path = "Pods/Target Support Files/Pods-upload2AWS/Pods-upload2AWS.release.xcconfig"; sourceTree = "<group>"; };
 		9C9AB8AB9ECEFBC124272AD1 /* Pods-upload2AWS.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-upload2AWS.debug.xcconfig"; path = "Pods/Target Support Files/Pods-upload2AWS/Pods-upload2AWS.debug.xcconfig"; sourceTree = "<group>"; };
 		BED554BCDDF2F673F62E22EE /* Pods_upload2AWS.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_upload2AWS.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -78,7 +92,14 @@
 				375806881E3FFAD6008A2085 /* TaskManager.swift */,
 				3750A9FF1E3BBE7800040EAA /* AudioManager.swift */,
 				37512D881E3937E400FC4A9A /* Exstentions.swift */,
+				376ABCE01E41063F002414E9 /* UICollectionViewDataSource.swift */,
+				375F8A4C1E411142001F9351 /* BackgroundAnimationViewController.swift */,
+				375F8A4E1E41117A001F9351 /* CustomKolodaView.swift */,
+				375F8A501E411199001F9351 /* BackgroundKolodaAnimator.swift */,
+				376ABCE21E410675002414E9 /* URLSession.swift */,
+				376ABCDE1E41060D002414E9 /* chinderViewController.swift */,
 				37512D901E3968ED00FC4A9A /* PhotoCell.swift */,
+				375F8A481E410BA8001F9351 /* ChinderOverlay.swift */,
 				3750AA011E3BD5F600040EAA /* YeshmeLord.mp3 */,
 				375806861E3FB4DD008A2085 /* imageNamed.png */,
 				372845471E32B70400C5CD79 /* Main.storyboard */,
@@ -238,12 +259,19 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				376ABCDF1E41060D002414E9 /* chinderViewController.swift in Sources */,
 				375806891E3FFAD6008A2085 /* TaskManager.swift in Sources */,
 				37512D911E3968ED00FC4A9A /* PhotoCell.swift in Sources */,
 				372845461E32B70400C5CD79 /* ViewController.swift in Sources */,
+				375F8A491E410BA8001F9351 /* ChinderOverlay.swift in Sources */,
+				376ABCE11E41063F002414E9 /* UICollectionViewDataSource.swift in Sources */,
+				376ABCE31E410675002414E9 /* URLSession.swift in Sources */,
 				372845441E32B70400C5CD79 /* AppDelegate.swift in Sources */,
+				375F8A511E411199001F9351 /* BackgroundKolodaAnimator.swift in Sources */,
 				3750AA001E3BBE7800040EAA /* AudioManager.swift in Sources */,
+				375F8A4F1E41117A001F9351 /* CustomKolodaView.swift in Sources */,
 				37512D891E3937E400FC4A9A /* Exstentions.swift in Sources */,
+				375F8A4D1E411142001F9351 /* BackgroundAnimationViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -370,6 +398,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				DEVELOPMENT_TEAM = 23A3RV3GPB;
 				INFOPLIST_FILE = upload2AWS/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = MacmeDan.upload2AWS;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -385,6 +414,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				DEVELOPMENT_TEAM = 23A3RV3GPB;
 				INFOPLIST_FILE = upload2AWS/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = MacmeDan.upload2AWS;
 				PRODUCT_NAME = "$(TARGET_NAME)";

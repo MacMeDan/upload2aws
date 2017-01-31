@@ -6,6 +6,9 @@ PODS:
   - AWSCore (2.4.10)
   - AWSS3 (2.4.10):
     - AWSCore (= 2.4.10)
+  - Koloda (4.0):
+    - pop (~> 1.0)
+  - pop (1.0.9)
   - SnapKit (3.0.2)
 
 DEPENDENCIES:
@@ -13,15 +16,28 @@ DEPENDENCIES:
   - AWSCognitoIdentityProvider
   - AWSCore
   - AWSS3
+  - Koloda (from `https://github.com/Yalantis/Koloda.git`, branch `swift-3`)
   - SnapKit
+
+EXTERNAL SOURCES:
+  Koloda:
+    :branch: swift-3
+    :git: https://github.com/Yalantis/Koloda.git
+
+CHECKOUT OPTIONS:
+  Koloda:
+    :commit: 00fc63910eeb9208cef9bf5b72c7243a59511414
+    :git: https://github.com/Yalantis/Koloda.git
 
 SPEC CHECKSUMS:
   AWSCognito: d9c6932091ceedac47e187ae04f0248505242cb0
   AWSCognitoIdentityProvider: 4f926b675d5c56b47bf9dcaae8adbe26d676b158
   AWSCore: c78eff928514e90075c3bd53f5ff2d9a77f8658e
   AWSS3: 46dcb199860206d72820942ab82be93597338646
+  Koloda: b133e13cee0444c545e788d87950131bfac47389
+  pop: f667631a5108a2e60d9e8797c9b32ddaf2080bce
   SnapKit: 2e456761aa92d4d4067a7a5594c18769d451a8ad
 
-PODFILE CHECKSUM: 5ec3f1849d95035fafefe5a18ef430433908ce7c
+PODFILE CHECKSUM: 2f33a811e91e4246ca13445aa2c71335bc0be596
 
 COCOAPODS: 1.1.1

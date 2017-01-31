@@ -9,6 +9,7 @@ pod 'AWSCore'
 pod 'AWSS3'
 pod 'AWSCognito'
 pod 'AWSCognitoIdentityProvider'
+pod 'Koloda', :git => 'https://github.com/Yalantis/Koloda.git', :branch => 'swift-3'
 
 
 pod 'SnapKit'

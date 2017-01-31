@@ -1,5 +1,5 @@
 //
-//  BackgroundAnimationViewController.swift
+//  ChinderVC.swift
 //  upload2AWS
 //
 //  Created by P D Leonard on 1/31/17.
@@ -18,9 +18,10 @@ private let frameAnimationSpringSpeed: CGFloat = 16
 private let kolodaCountOfVisibleCards = 2
 private let kolodaAlphaValueSemiTransparent: CGFloat = 0.1
 
-class BackgroundAnimationViewController: UIViewController {
+class ChinderVC: UIViewController {
     
     @IBOutlet weak var kolodaView: CustomKolodaView!
+    
     var photoKeys:          [String] = []
     var photoObjectList:    [PhotoObject] = []
     
@@ -35,21 +36,23 @@ class BackgroundAnimationViewController: UIViewController {
         kolodaView.animator = BackgroundKolodaAnimator(koloda: kolodaView)
         
         self.modalTransitionStyle = UIModalTransitionStyle.flipHorizontal
+        AWS.shared.createFolderWith(Name: printFolder)
+        AWS.shared.createFolderWith(Name: excludeFolder)
     }
-    
     
     //MARK: IBActions
     @IBAction func leftButtonTapped() {
-        // Discard
+        AWS.shared.upload(Object: photoObjectList[kolodaView.currentCardIndex], folder: excludeFolder)
         kolodaView?.swipe(.left)
     }
     
     @IBAction func rightButtonTapped() {
-        // Print
+        AWS.shared.upload(Object: photoObjectList[kolodaView.currentCardIndex], folder: excludeFolder)
         kolodaView?.swipe(.right)
     }
     
     @IBAction func undoButtonTapped() {
+        AWS.shared.deleteFile(Key: photoObjectList[kolodaView.currentCardIndex].id)
         kolodaView?.revertAction()
     }
     
@@ -90,10 +93,24 @@ class BackgroundAnimationViewController: UIViewController {
 }
 
 //MARK: KolodaViewDelegate
-extension BackgroundAnimationViewController: KolodaViewDelegate {
+extension ChinderVC: KolodaViewDelegate {
     
     func kolodaDidRunOutOfCards(_ koloda: KolodaView) {
         kolodaView.resetCurrentCardIndex()
+    }
+    
+    func koloda(_ koloda: KolodaView, didSwipeCardAt index: Int, in direction: SwipeResultDirection) {
+        print(direction)
+        switch direction {
+        case .left:
+            AWS.shared.upload(Object: photoObjectList[kolodaView.currentCardIndex], folder: excludeFolder)
+        case .right:
+            AWS.shared.upload(Object: photoObjectList[kolodaView.currentCardIndex], folder: printFolder)
+        default:
+            assertionFailure("This direction is not supported :\(direction)")
+            break
+        }
+        
     }
     
     func koloda(_ koloda: KolodaView, didSelectCardAt index: Int) {
@@ -121,18 +138,20 @@ extension BackgroundAnimationViewController: KolodaViewDelegate {
 }
 
 // MARK: KolodaViewDataSource
-extension BackgroundAnimationViewController: KolodaViewDataSource {
+extension ChinderVC: KolodaViewDataSource {
     
     func kolodaNumberOfCards(_ koloda: KolodaView) -> Int {
         return photoObjectList.count
     }
     
     func koloda(_ koloda: KolodaView, viewForCardAt index: Int) -> UIView {
-        return UIImageView(image: photoObjectList[index].image)
+        let imageView = UIImageView(image: photoObjectList[index].image)
+        imageView.contentMode = .scaleAspectFit
+        return imageView
     }
     
     func koloda(_ koloda: KolodaView, viewForCardOverlayAt index: Int) -> OverlayView? {
-        return nil
+        return ChinderOverlayView(frame: koloda.frame)
     }
 }
 

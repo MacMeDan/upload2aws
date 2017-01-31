@@ -71,7 +71,6 @@ class ViewController: UIViewController {
         prepareUploadButton()
         prepareDownloadButton()
         prepareStatsButton()
-        prepareChinderButton()
         //syncPhotos()
         onlySync100Photos()
     }
@@ -220,7 +219,7 @@ class ViewController: UIViewController {
                             request.setValue(self.contentType, forHTTPHeaderField: "Content-Type")
                             
                             let uploadTask = self.uploadSession.uploadTask(with: request as URLRequest, fromFile: fileUrl)
-                            let id = String(uploadTask.taskIdentifier)
+                            //let id = String(uploadTask.taskIdentifier)
                             uploadTask.resume()
 //                            self.allTasks[id] = uploadTask
 //                            self.manageActiveTasks()
@@ -267,21 +266,6 @@ class ViewController: UIViewController {
             make.left.equalToSuperview().offset(20)
             make.top.equalToSuperview().offset(100)
         }
-    }
-    
-    func prepareChinderButton() {
-        let button = getButton()
-        button.setTitle("Chinder", for: .normal)
-        button.addTarget(self, action: #selector(chinderAction), for: .touchUpInside)
-        self.view.addSubview(button)
-        button.snp.makeConstraints { (make) in
-            make.left.equalToSuperview().offset(20)
-            make.top.equalToSuperview().offset(200)
-        }
-    }
-    
-    func chinderAction() {
-        present(chinderViewController(), animated: true, completion: nil)
     }
     
     func prepareDownloadButton() {

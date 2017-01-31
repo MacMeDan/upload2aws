@@ -1,0 +1,27 @@
+PODS:
+  - AWSCognito (2.4.10):
+    - AWSCore (= 2.4.10)
+  - AWSCognitoIdentityProvider (2.4.10):
+    - AWSCore (= 2.4.10)
+  - AWSCore (2.4.10)
+  - AWSS3 (2.4.10):
+    - AWSCore (= 2.4.10)
+  - SnapKit (3.0.2)
+
+DEPENDENCIES:
+  - AWSCognito
+  - AWSCognitoIdentityProvider
+  - AWSCore
+  - AWSS3
+  - SnapKit
+
+SPEC CHECKSUMS:
+  AWSCognito: d9c6932091ceedac47e187ae04f0248505242cb0
+  AWSCognitoIdentityProvider: 4f926b675d5c56b47bf9dcaae8adbe26d676b158
+  AWSCore: c78eff928514e90075c3bd53f5ff2d9a77f8658e
+  AWSS3: 46dcb199860206d72820942ab82be93597338646
+  SnapKit: 2e456761aa92d4d4067a7a5594c18769d451a8ad
+
+PODFILE CHECKSUM: 5ec3f1849d95035fafefe5a18ef430433908ce7c
+
+COCOAPODS: 1.1.1

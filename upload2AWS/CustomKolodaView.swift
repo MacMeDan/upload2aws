@@ -1,9 +1,8 @@
-//
 //  CustomKolodaView.swift
-//  Koloda
+//  upload2AWS
 //
-//  Created by Eugene Andreyev on 7/11/15.
-//  Copyright (c) 2015 CocoaPods. All rights reserved.
+//  Created by P D Leonard on 1/31/17.
+//  Copyright © 2017 MacMeDan. All rights reserved.
 //
 
 import UIKit

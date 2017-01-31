@@ -36,6 +36,7 @@ class ChinderVC: UIViewController {
         kolodaView.animator = BackgroundKolodaAnimator(koloda: kolodaView)
         
         self.modalTransitionStyle = UIModalTransitionStyle.flipHorizontal
+        AWS.shared.createUserSubFolder()
         AWS.shared.createFolderWith(Name: printFolder)
         AWS.shared.createFolderWith(Name: excludeFolder)
     }
@@ -56,6 +57,10 @@ class ChinderVC: UIViewController {
         kolodaView?.revertAction()
     }
     
+    @IBAction func testAction(_ sender: UIButton) {
+        self.navigationController?.present(ViewController(), animated: true, completion: nil)
+        
+    }
     func syncPhotos() {
         // Gets all photos off of phone.
         let imgManager = PHImageManager.default()
@@ -86,7 +91,6 @@ class ChinderVC: UIViewController {
     func addImgToArray(uploadImage:UIImage, id: String){
         let photoObject = PhotoObject(image: uploadImage, id: id)
         photoObjectList.append(photoObject)
-        //Used for download
         photoKeys.append(id)
     }
 
@@ -100,7 +104,6 @@ extension ChinderVC: KolodaViewDelegate {
     }
     
     func koloda(_ koloda: KolodaView, didSwipeCardAt index: Int, in direction: SwipeResultDirection) {
-        print(direction)
         switch direction {
         case .left:
             AWS.shared.upload(Object: photoObjectList[kolodaView.currentCardIndex], folder: excludeFolder)

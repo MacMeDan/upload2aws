@@ -6,6 +6,6 @@
 //  Copyright © 2017 MacMeDan. All rights reserved.
 //
 
-let printFolder: String!     = "print"
-let excludeFolder: String!   = "exclude"
+let printFolder: String!     = "print/"
+let excludeFolder: String!   = "exclude/"
 let ext: String!             = ".jpg"

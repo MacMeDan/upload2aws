@@ -10,9 +10,14 @@ import AWSCore
 import AWSS3
 
 class AWS: NSObject {
-    let bucket        = "upload2aws"
     let contentType   = "image/jpeg"
     let ext           = ".jpg"
+    let bucket        = "upload2aws"
+    
+    lazy var user: String = {
+        return UIDevice.current.identifierForVendor!.uuidString + "/"
+    }()
+    
     
     static var shared = AWS()
     
@@ -38,9 +43,9 @@ class AWS: NSObject {
     func buildPresigedURl(Object: PhotoObject, fileUrl: URL, folder: String?) {
         var folderRoute: String
         if let folder = folder {
-            folderRoute = folder + "/"
+            folderRoute = user + folder
         } else {
-            folderRoute = ""
+            folderRoute = user
         }
         
         let preSignedRequest = getPresignedURL(key: folderRoute + Object.id + ext)
@@ -63,16 +68,20 @@ class AWS: NSObject {
     
     func createFolderWith(Name: String!) {
         let folderRequest: AWSS3PutObjectRequest = AWSS3PutObjectRequest()
-        folderRequest.key = Name + "/"
+        folderRequest.key = user + Name
         folderRequest.bucket = bucket
         AWSS3.default().putObject(folderRequest).continue({ (task) -> Any? in
-            if task.error != nil {
-                assertionFailure("* * * error: \(task.error?.localizedDescription)")
-            } else {
-                if let name = Name {
-                    print("created \(name) folder")
-                }
-            }
+            task.error != nil ? print("Error:\(task.error?.localizedDescription)") : print(self.user, Name)
+            return nil
+        })
+    }
+    
+    func createUserSubFolder() {
+        let folderRequest: AWSS3PutObjectRequest = AWSS3PutObjectRequest()
+        folderRequest.key = user
+        folderRequest.bucket = bucket
+        AWSS3.default().putObject(folderRequest).continue({ (task) -> Any? in
+            task.error != nil ? print("Error:\(task.error?.localizedDescription)") : (print("User:\(self.user)"))
             return nil
         })
     }
@@ -81,11 +90,11 @@ class AWS: NSObject {
         let s3 = AWSS3.default()
         let deleteObjectRequest: AWSS3DeleteObjectRequest = AWSS3DeleteObjectRequest()
         deleteObjectRequest.bucket = bucket
-        deleteObjectRequest.key = Key + ext
+        //deleteObjectRequest.key = user + Key + ext
+        //s3.deleteObject(deleteObjectRequest)
+        deleteObjectRequest.key = user + printFolder + Key + ext
         s3.deleteObject(deleteObjectRequest)
-        deleteObjectRequest.key = printFolder + "/" + Key + ext
-        s3.deleteObject(deleteObjectRequest)
-        deleteObjectRequest.key = excludeFolder + "/" + Key + ext
+        deleteObjectRequest.key = user + excludeFolder + Key + ext
         s3.deleteObject(deleteObjectRequest)
     }
 }

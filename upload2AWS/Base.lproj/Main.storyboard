@@ -50,6 +50,9 @@
                                         <state key="normal" image="ic_koloda">
                                             <color key="titleShadowColor" red="0.5" green="0.5" blue="0.5" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         </state>
+                                        <connections>
+                                            <action selector="testAction:" destination="NhE-IZ-Ilx" eventType="touchUpInside" id="oIc-69-dNr"/>
+                                        </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Y93-XV-lLz">
                                         <rect key="frame" x="339" y="40" width="21" height="22"/>
@@ -67,7 +70,7 @@
                                         <nil key="highlightedColor"/>
                                     </label>
                                 </subviews>
-                                <color key="backgroundColor" red="0.75050950049999998" green="0.17824108899999999" blue="0.21366685630000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <color key="backgroundColor" red="0.16513324873096447" green="0.16513324873096447" blue="0.16513324873096447" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <constraints>
                                     <constraint firstAttribute="centerX" secondItem="tss-YD-2uK" secondAttribute="centerX" id="1Mx-bD-mxB"/>
                                     <constraint firstAttribute="bottom" secondItem="xyT-GI-7iB" secondAttribute="bottom" constant="12" id="BpP-37-q0X"/>
@@ -87,7 +90,7 @@
                                 </constraints>
                             </view>
                         </subviews>
-                        <color key="backgroundColor" red="0.94260978699999998" green="0.074026077989999994" blue="0.15428309139999999" alpha="0.75" colorSpace="custom" customColorSpace="sRGB"/>
+                        <color key="backgroundColor" cocoaTouchSystemColor="darkTextColor"/>
                         <constraints>
                             <constraint firstItem="PtJ-0e-Ph3" firstAttribute="top" secondItem="Cf4-5b-nO1" secondAttribute="bottom" constant="64" id="5Nr-ES-W1n"/>
                             <constraint firstItem="40g-Go-J3X" firstAttribute="leading" secondItem="THi-Za-N5p" secondAttribute="leading" id="8pu-jS-dt9"/>

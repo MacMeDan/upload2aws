@@ -23,7 +23,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     func setUpAWSCeds() {
         // Configure AWS Cognito Credentials
-        let credentialsProvider = AWSCognitoCredentialsProvider(regionType:.usWest2, identityPoolId:"us-west-2:0c72a19d-aca1-481b-ba10-8bbffc9c6393")
+        let credentialsProvider = AWSCognitoCredentialsProvider(regionType:.usWest2, identityPoolId:identityPoolId)
         let configuration = AWSServiceConfiguration(region:.usWest2, credentialsProvider:credentialsProvider)
         AWSServiceManager.default().defaultServiceConfiguration = configuration
     }

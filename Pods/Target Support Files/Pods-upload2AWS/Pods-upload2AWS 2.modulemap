@@ -1,6 +1,0 @@
-framework module Pods_upload2AWS {
-  umbrella header "Pods-upload2AWS-umbrella.h"
-
-  export *
-  module * { export * }
-}

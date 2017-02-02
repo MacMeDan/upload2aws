@@ -1,5 +1,5 @@
 //
-//  ChinderOverlay.swift
+//  ChindrOverlay.swift
 //  upload2AWS
 //
 //  Created by P D Leonard on 1/31/17.
@@ -9,7 +9,7 @@
 import UIKit
 import Koloda
 
-class ChinderOverlayView: OverlayView {
+class ChindrOverlayView: OverlayView {
     
     override init(frame: CGRect) {
        super.init(frame: frame)

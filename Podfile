@@ -11,9 +11,6 @@ pod 'AWSCognito'
 pod 'AWSCognitoIdentityProvider'
 pod 'Koloda', :git => 'https://github.com/Yalantis/Koloda.git', :branch => 'swift-3'
 
-
 pod 'SnapKit'
-
-# Pods for upload2AWS
 
 end

@@ -10,10 +10,8 @@ import AWSCore
 import AWSS3
 
 class AWS: NSObject {
-    let contentType   = "image/jpeg"
-    let ext           = ".jpg"
-    let bucket        = "upload2aws"
-    
+    var printCount: Int! = Int()
+    var excludeCount: Int! = Int()
     lazy var user: String = {
         return UIDevice.current.identifierForVendor!.uuidString + "/"
     }()
@@ -21,8 +19,17 @@ class AWS: NSObject {
     
     static var shared = AWS()
     
-    func upload(Object: PhotoObject, folder: String?) {
+    func upload(Object: PhotoObject, folder: Folder) {
+        if folder == .print {
+            deleteFileFrom(folder: .exclude, Key: Object.id)
+            printCount = printCount + 1
+        } else {
+            deleteFileFrom(folder: .print, Key: Object.id)
+            excludeCount = excludeCount + 1
+        }
+        
         let path = (NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)[0] as NSString).appendingPathComponent(Object.id)
+        
         if let imageData = UIImageJPEGRepresentation(Object.image, 1.0) {
             FileManager.default.createFile(atPath: path as String, contents: imageData, attributes: nil)
             let fileUrl = URL(fileURLWithPath: path)
@@ -40,10 +47,10 @@ class AWS: NSObject {
         return preSignedRequest
     }
     
-    func buildPresigedURl(Object: PhotoObject, fileUrl: URL, folder: String?) {
+    func buildPresigedURl(Object: PhotoObject, fileUrl: URL, folder: Folder?) {
         var folderRoute: String
         if let folder = folder {
-            folderRoute = user + folder
+            folderRoute = user + folder.rawValue
         } else {
             folderRoute = user
         }
@@ -56,7 +63,7 @@ class AWS: NSObject {
                 if let presignedURl = task.result as? URL {
                     var request: URLRequest = URLRequest(url: presignedURl, cachePolicy: .reloadIgnoringLocalCacheData, timeoutInterval: TimeInterval(3600))
                     request.httpMethod = "PUT"
-                    request.setValue(self.contentType, forHTTPHeaderField: "Content-Type")
+                    request.setValue(contentType, forHTTPHeaderField: "Content-Type")
                     
                     let uploadTask = URlSessionManager.shared.backgroundUploadSession.uploadTask(with: request, fromFile: fileUrl)
                     uploadTask.resume()
@@ -66,12 +73,12 @@ class AWS: NSObject {
         })
     }
     
-    func createFolderWith(Name: String!) {
+    func createFolderWith(folder: Folder) {
         let folderRequest: AWSS3PutObjectRequest = AWSS3PutObjectRequest()
-        folderRequest.key = user + Name
+        folderRequest.key = user + folder.rawValue
         folderRequest.bucket = bucket
         AWSS3.default().putObject(folderRequest).continue({ (task) -> Any? in
-            task.error != nil ? print("Error:\(task.error?.localizedDescription)") : print(self.user, Name)
+            task.error != nil ? print("Error:\(task.error?.localizedDescription)") : print(self.user, folder)
             return nil
         })
     }
@@ -86,15 +93,16 @@ class AWS: NSObject {
         })
     }
     
-    func deleteFile(Key: String) {
+    func deleteFileFrom(folder: Folder, Key: String) {
         let s3 = AWSS3.default()
         let deleteObjectRequest: AWSS3DeleteObjectRequest = AWSS3DeleteObjectRequest()
         deleteObjectRequest.bucket = bucket
-        //deleteObjectRequest.key = user + Key + ext
-        //s3.deleteObject(deleteObjectRequest)
-        deleteObjectRequest.key = user + printFolder + Key + ext
+        deleteObjectRequest.key = user + folder.rawValue + Key + ext
         s3.deleteObject(deleteObjectRequest)
-        deleteObjectRequest.key = user + excludeFolder + Key + ext
-        s3.deleteObject(deleteObjectRequest)
+    }
+    
+    func deleteFile(Key: String) {
+        deleteFileFrom(folder: .print, Key: Key)
+        deleteFileFrom(folder: .exclude, Key: Key)
     }
 }

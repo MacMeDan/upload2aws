@@ -1,5 +1,5 @@
 //
-//  ChinderVC.swift
+//  ChindrVC.swift
 //  upload2AWS
 //
 //  Created by P D Leonard on 1/31/17.
@@ -12,72 +12,124 @@ import UIKit
 import Koloda
 import pop
 import Photos
+import SnapKit
 
 private let frameAnimationSpringBounciness: CGFloat = 9
 private let frameAnimationSpringSpeed: CGFloat = 16
 private let kolodaCountOfVisibleCards = 2
 private let kolodaAlphaValueSemiTransparent: CGFloat = 0.1
 
-class ChinderVC: UIViewController {
+class ChindrVC: UIViewController {
     
     @IBOutlet weak var kolodaView: CustomKolodaView!
-    
     var photoKeys:          [String] = []
     var photoObjectList:    [PhotoObject] = []
+    var analyticsLabel = UILabel()
+   
     
     //MARK: Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
+        AWS.shared.printCount = 0
+        AWS.shared.excludeCount = 0
+        setupNavigationController()
         syncPhotos()
         kolodaView.alphaValueSemiTransparent = kolodaAlphaValueSemiTransparent
         kolodaView.countOfVisibleCards = kolodaCountOfVisibleCards
         kolodaView.delegate = self
         kolodaView.dataSource = self
         kolodaView.animator = BackgroundKolodaAnimator(koloda: kolodaView)
-        
+        prepareAnalytics()
         self.modalTransitionStyle = UIModalTransitionStyle.flipHorizontal
         AWS.shared.createUserSubFolder()
-        AWS.shared.createFolderWith(Name: printFolder)
-        AWS.shared.createFolderWith(Name: excludeFolder)
+        AWS.shared.createFolderWith(folder: .print)
+        AWS.shared.createFolderWith(folder: .exclude)
+        
+    }
+    
+    func setupNavigationController() {
+        navigationController?.navigationBar.tintColor = UIColor.white
+    }
+    
+    func checkAutorization() {
+        let status = PHPhotoLibrary.authorizationStatus()
+        switch status {
+        case .authorized, .restricted:
+            syncPhotos()
+        case .notDetermined, .denied:
+            PHPhotoLibrary.requestAuthorization({ (newStatus) in
+                if (newStatus == PHAuthorizationStatus.authorized) {
+                    self.syncPhotos()
+                }
+            })
+        }
+    }
+    
+    func prepareAnalytics() {
+        view.addSubview(analyticsLabel)
+        analyticsLabel.textColor = UIColor.white
+        analyticsLabel.textAlignment = .center
+        analyticsLabel.snp.makeConstraints { (make) in
+            make.centerX.equalToSuperview()
+            make.bottom.equalToSuperview().offset(-60)
+            make.width.equalToSuperview()
+            make.height.equalTo(40)
+        }
+        
+    }
+    
+    func updateCounts() {
+        guard let printCount = AWS.shared.printCount, let excludedCount = AWS.shared.excludeCount else {
+            return
+        }
+       self.analyticsLabel.text = "Print: \(printCount) Exclude:\(excludedCount)"
     }
     
     //MARK: IBActions
     @IBAction func leftButtonTapped() {
-        AWS.shared.upload(Object: photoObjectList[kolodaView.currentCardIndex], folder: excludeFolder)
+        uploadZiffImageFrom(id: photoObjectList[kolodaView.currentCardIndex].id, folder: .exclude)
+        updateCounts()
         kolodaView?.swipe(.left)
     }
     
     @IBAction func rightButtonTapped() {
-        AWS.shared.upload(Object: photoObjectList[kolodaView.currentCardIndex], folder: excludeFolder)
+        uploadZiffImageFrom(id: photoObjectList[kolodaView.currentCardIndex].id, folder: .print)
+        updateCounts()
         kolodaView?.swipe(.right)
     }
     
-    @IBAction func undoButtonTapped() {
+    @IBAction func undoButtonTapped(_ sender: UIBarButtonItem) {
         AWS.shared.deleteFile(Key: photoObjectList[kolodaView.currentCardIndex].id)
         kolodaView?.revertAction()
     }
     
-    @IBAction func testAction(_ sender: UIButton) {
-        self.navigationController?.present(ViewController(), animated: true, completion: nil)
-        
+    @IBAction func testAction(_ sender: Any) {
+     self.navigationController?.pushViewController(ViewController(), animated: true)
     }
+    
     func syncPhotos() {
         // Gets all photos off of phone.
         let imgManager = PHImageManager.default()
+        
         let requestOptions = PHImageRequestOptions()
         requestOptions.isSynchronous = true
         requestOptions.isNetworkAccessAllowed = true
-        requestOptions.deliveryMode = .opportunistic
-        requestOptions.resizeMode = .exact
-        
+        requestOptions.deliveryMode = .highQualityFormat
+        requestOptions.resizeMode = .none
+
         let fetchOptions = PHFetchOptions()
+        
         fetchOptions.sortDescriptors = [NSSortDescriptor(key:"creationDate", ascending: true)]
         let results = PHAsset.fetchAssets(with: .image, options: fetchOptions)
         
         results.enumerateObjects({(object: AnyObject!, count: Int, stop: UnsafeMutablePointer<ObjCBool>) in
             if object is PHAsset{
                 let asset = object as! PHAsset
-                imgManager.requestImage(for: asset, targetSize: CGSize(width: 240, height: 240), contentMode: .aspectFit, options: requestOptions, resultHandler: { (image, info) in
+                let date = asset.creationDate! as Date
+                let year = Calendar.current.component(.year, from: date)
+                //if year == 2016 {
+                
+                imgManager.requestImage(for: asset, targetSize: CGSize(width: 244, height: 244), contentMode: .aspectFit, options: requestOptions, resultHandler: { (image, info) in
                     let idString = asset.localIdentifier
                     let indexOfCharicter = idString.components(separatedBy: "/")
                     if let image = image, let id = indexOfCharicter.first {
@@ -88,16 +140,44 @@ class ChinderVC: UIViewController {
         })
     }
     
-    func addImgToArray(uploadImage:UIImage, id: String){
+    func uploadZiffImageFrom(id: String, folder: Folder) {
+        let imgManager = PHImageManager.default()
+        let ziffRequestOptions = PHImageRequestOptions()
+        ziffRequestOptions.isSynchronous = true
+        ziffRequestOptions.isNetworkAccessAllowed = true
+        ziffRequestOptions.deliveryMode = .opportunistic
+        ziffRequestOptions.resizeMode = .exact
+        
+        let fetchOptions = PHFetchOptions()
+        fetchOptions.sortDescriptors = [NSSortDescriptor(key:"creationDate", ascending: true)]
+
+        let results = PHAsset.fetchAssets(withLocalIdentifiers: [id], options: fetchOptions)
+        
+        results.enumerateObjects({(object: AnyObject!, count: Int, stop: UnsafeMutablePointer<ObjCBool>) in
+            if object is PHAsset{
+                let asset = object as! PHAsset
+                
+                imgManager.requestImage(for: asset, targetSize: CGSize(width: 244, height: 244), contentMode: .aspectFit, options: ziffRequestOptions, resultHandler: { (image, info) in
+                    let idString = asset.localIdentifier
+                    let indexOfCharicter = idString.components(separatedBy: "/")
+                    if let image = image, let id = indexOfCharicter.first {
+                        let ziffPhotoObject = PhotoObject(image: image, id: id)
+                        AWS.shared.upload(Object: ziffPhotoObject, folder: folder)
+                    }
+                })
+            }
+        })
+    }
+    
+    func addImgToArray(uploadImage: UIImage, id: String){
         let photoObject = PhotoObject(image: uploadImage, id: id)
         photoObjectList.append(photoObject)
         photoKeys.append(id)
     }
-
 }
 
 //MARK: KolodaViewDelegate
-extension ChinderVC: KolodaViewDelegate {
+extension ChindrVC: KolodaViewDelegate {
     
     func kolodaDidRunOutOfCards(_ koloda: KolodaView) {
         kolodaView.resetCurrentCardIndex()
@@ -106,22 +186,25 @@ extension ChinderVC: KolodaViewDelegate {
     func koloda(_ koloda: KolodaView, didSwipeCardAt index: Int, in direction: SwipeResultDirection) {
         switch direction {
         case .left:
-            AWS.shared.upload(Object: photoObjectList[kolodaView.currentCardIndex], folder: excludeFolder)
+            uploadZiffImageFrom(id: photoObjectList[kolodaView.currentCardIndex - 1].id, folder: .exclude)
         case .right:
-            AWS.shared.upload(Object: photoObjectList[kolodaView.currentCardIndex], folder: printFolder)
+            uploadZiffImageFrom(id: photoObjectList[kolodaView.currentCardIndex - 1].id, folder: .print)
         default:
             assertionFailure("This direction is not supported :\(direction)")
             break
         }
-        
+        updateCounts()
     }
     
     func koloda(_ koloda: KolodaView, didSelectCardAt index: Int) {
-        //UIApplication.shared.openURL(URL(string: "https://yalantis.com/")!)
     }
     
     func kolodaShouldApplyAppearAnimation(_ koloda: KolodaView) -> Bool {
         return true
+    }
+    
+    func kolodaSwipeThresholdRatioMargin(_ koloda: KolodaView) -> CGFloat? {
+        return 0.4
     }
     
     func kolodaShouldMoveBackgroundCard(_ koloda: KolodaView) -> Bool {
@@ -141,7 +224,7 @@ extension ChinderVC: KolodaViewDelegate {
 }
 
 // MARK: KolodaViewDataSource
-extension ChinderVC: KolodaViewDataSource {
+extension ChindrVC: KolodaViewDataSource {
     
     func kolodaNumberOfCards(_ koloda: KolodaView) -> Int {
         return photoObjectList.count
@@ -154,7 +237,8 @@ extension ChinderVC: KolodaViewDataSource {
     }
     
     func koloda(_ koloda: KolodaView, viewForCardOverlayAt index: Int) -> OverlayView? {
-        return ChinderOverlayView(frame: koloda.frame)
+        return ChindrOverlayView(frame: koloda.frame)
     }
 }
+
 

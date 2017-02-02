@@ -55,6 +55,7 @@ class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         BGAudio.shared.setupAudioSession()
+        view.backgroundColor = UIColor.white
         _ = self.uploadSession
         setUpView()
     }
@@ -74,7 +75,6 @@ class ViewController: UIViewController {
         //syncPhotos()
         onlySync100Photos()
     }
-    
     
     func syncPhotos() {
         // Gets all photos off of phone.
@@ -111,7 +111,7 @@ class ViewController: UIViewController {
         amountUploaded.textAlignment = .center
         amountUploaded.snp.makeConstraints { (make) in
             make.centerX.equalToSuperview()
-            make.top.equalToSuperview().offset(40)
+            make.top.equalToSuperview().offset(70)
             make.height.equalTo(40)
             make.width.equalToSuperview()
         }
@@ -124,7 +124,7 @@ class ViewController: UIViewController {
         testResults.textAlignment = .center
         testResults.snp.makeConstraints { (make) in
             make.centerX.equalToSuperview()
-            make.top.equalToSuperview().offset(65)
+            make.top.equalToSuperview().offset(90)
             make.height.equalTo(40)
             make.width.equalToSuperview()
         }
@@ -148,7 +148,7 @@ class ViewController: UIViewController {
         progressView.snp.makeConstraints { (make) in
             make.left.equalToSuperview().offset(20)
             make.right.equalToSuperview().offset(-20)
-            make.top.equalToSuperview().offset(70)
+            make.top.equalToSuperview().offset(100)
             make.centerX.equalToSuperview()
         }
     }
@@ -177,7 +177,6 @@ class ViewController: UIViewController {
         }
         firstTime = false
     }
-    
     
     func getPresignedURL(key: String) -> AWSS3GetPreSignedURLRequest  {
         let preSignedRequest = AWSS3GetPreSignedURLRequest()
@@ -264,7 +263,7 @@ class ViewController: UIViewController {
         self.view.addSubview(button)
         button.snp.makeConstraints { (make) in
             make.left.equalToSuperview().offset(20)
-            make.top.equalToSuperview().offset(100)
+            make.top.equalToSuperview().offset(130)
         }
     }
     
@@ -276,7 +275,7 @@ class ViewController: UIViewController {
         self.view.addSubview(button)
         button.snp.makeConstraints { (make) in
             make.right.equalToSuperview().offset(-20)
-            make.top.equalToSuperview().offset(100)
+            make.top.equalToSuperview().offset(130)
         }
     }
     
@@ -299,7 +298,7 @@ class ViewController: UIViewController {
         
         self.view.addSubview(statsbutton)
         statsbutton.snp.makeConstraints { (make) in
-            make.top.equalToSuperview().offset(160)
+            make.top.equalToSuperview().offset(190)
             make.centerX.equalToSuperview()
             make.width.equalTo(200)
             make.height.equalTo(40)
@@ -320,7 +319,6 @@ class ViewController: UIViewController {
     }
     
    fileprivate func onlySync100Photos() {
-        // Gets 158 photos on Dan's Phone from his family pictures ablum.
         var assetCollection = PHAssetCollection()
         var albumFound = Bool()
         var photoAssets = PHFetchResult<AnyObject>()
